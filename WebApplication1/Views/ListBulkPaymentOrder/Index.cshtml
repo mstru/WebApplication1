@@ -1,0 +1,68 @@
+﻿@model PagedList.IPagedList<WebApplication1.Code.Models.Base.BulkPaymentOrderModel>
+@using PagedList.Mvc;
+@using WebApplication1.Code.Models;
+
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+@{
+    ViewBag.Title = "Index";
+}
+
+
+<h2>Zoznam</h2>
+
+<div style="width:800px; margin:0 auto;">
+    <div class="container">
+        <table class="table table-bordered">
+            <tbody>
+                <tr>
+                    <th>
+                        @using (Html.BeginForm("Index", "ListBulkPaymentOrder", FormMethod.Get))
+                        {
+                            @Html.DropDownList("searchSender", Utilities.GetClients(), "Zadávateľ") 
+                            <input type="submit" value="Hľadaj" /> 
+                        }
+                    </th>
+                    <th>
+                        @using (Html.BeginForm("Index", "ListBulkPaymentOrder", FormMethod.Get))
+                        {
+                            @Html.DropDownList("searchRecipient", Utilities.GetClients(), "Prijímateľ")
+                            <input type="submit" value="Hľadaj" />
+                        }
+                    </th>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@if (Model.Count != null)
+{
+    <div style="width:800px; margin:0 auto;">
+        <div class="container">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>@Html.ActionLink("Zadávateľ", "Index", new { sort = ViewBag.ClientIDSenderSort })</th>
+                        <th>@Html.ActionLink("Prijímateľ", "Index", new { sort = ViewBag.ClientIDRecipientSort })</th>
+                        <th>@Html.ActionLink("Suma", "Index", new { sort = ViewBag.TransAmountSort })</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (int i = 0; i < Model.Count(); i++)
+                    {
+                        <tr>
+                            <td>@Utilities.GetClient(Model[i].ClientIDSender.ToString())</td>
+                            <td>@Utilities.GetClient(Model[i].ClientIDRecipient.ToString())</td>
+                            <td>@Model[i].TransAmount</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <br /> Stránka @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) z počtu @Model.PageCount
+            @Html.PagedListPager(Model, page => Url.Action("Index",
+            new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+        </div>
+    </div>
+}
+

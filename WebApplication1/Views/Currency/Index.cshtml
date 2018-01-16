@@ -1,0 +1,50 @@
+﻿@model PagedList.IPagedList<WebApplication1.Code.Models.Base.CurrencyModel>
+@using PagedList.Mvc;
+
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Zoznam</h2>
+<div style="width:800px; margin:0 auto;">
+    <div class="container">
+        <table class="table table-bordered">
+            <tbody>
+                <tr>
+                    <th>
+                        <div class="col-lg-6">
+                            @using (Html.BeginForm())
+                            {
+                                @Html.ActionLink("Vytvoriť", "CreateCurrency", "Currency")
+                            }
+                        </div>
+                    </th>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<div style="width:800px; margin:0 auto;">
+    <div class="container">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>@Html.ActionLink("Id", "Index", new { sort = ViewBag.CurrencyIdSort })</th>
+                    <th>@Html.ActionLink("Peňažná mena", "Index", new { sort = ViewBag.CurrencySort })</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (int i = 0; i < Model.Count(); i++)
+                {
+                    <tr>
+                        <td>@Model[i].CurrencyId</td>
+                        <td>@Model[i].Currency</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+

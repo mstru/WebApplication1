@@ -1,0 +1,74 @@
+﻿@model PagedList.IPagedList<WebApplication1.Code.Models.Base.PaymentOrderModel>
+@using PagedList.Mvc;
+@using WebApplication1.Code.Models;
+
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Zoznam</h2>
+
+<div style="width:800px; margin:0 auto;">
+    <div class="container">
+        <table class="table table-bordered">
+            <tbody>
+                <tr>
+                    <th>
+                        @using (Html.BeginForm("Index", "ListPaymentOrder", FormMethod.Get))
+                        {
+                            @Html.DropDownList("searchClient", Utilities.GetClients(), "Zoznam klientov")
+                            <input type="submit" value="Hľadaj" />
+                        }
+                    </th>
+                    <th>
+                        @using (Html.BeginForm("Index", "ListPaymentOrder", FormMethod.Get))
+                        {
+                            <label for="disabledTextInput">Typ transakcie</label>
+                            @Html.TextBox("searchTransType")
+                            <input type="submit" value="Hľadaj" />
+                        }
+                    </th>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@if (Model.Count != null)
+{
+    <div style="width:800px; margin:0 auto;">
+        <div class="container">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>@Html.ActionLink("Klient", "Index", new { sort = ViewBag.ClientIdSort })</th>
+                        <th>@Html.ActionLink("Suma", "Index", new { sort = ViewBag.TransAmountSort })</th>
+                        <th>@Html.ActionLink("Typ transakcie", "Index", new { sort = ViewBag.TransTypeSort })</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (int i = 0; i < Model.Count(); i++)
+                {
+                        <tr>
+                            <td>@Utilities.GetClient(Model[i].ClientId.ToString())</td>
+                            @if (Model[i].TransType.ToString() == "Vklad")
+                            {
+                            <td style="color:green">@Model[i].TransAmount</td>
+                            }
+                            else
+                            {
+                            <td style="color:red">@Model[i].TransAmount</td>
+                            }
+                            <td>@Model[i].TransType</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <br /> Stránka @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) z počtu @Model.PageCount
+            @Html.PagedListPager(Model, page => Url.Action("Index",
+             new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+        </div>
+    </div>
+}

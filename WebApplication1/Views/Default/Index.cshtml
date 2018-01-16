@@ -1,0 +1,55 @@
+﻿@model PagedList.IPagedList<WebApplication1.Code.Models.Base.ClientModel>
+@using PagedList.Mvc;
+@using WebApplication1.Code.Models;
+
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Zoznam</h2>
+
+<div style="width:800px; margin:0 auto;">
+    <div class="container">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th style="width:8px">Operácie</th>
+                    <th>@Html.DisplayNameFor(model => model.First().ClientId)</th>
+                    <th>@Html.ActionLink("Meno klienta", "Index", new { sort = ViewBag.UsernameSort })</th>
+                    <th>@Html.ActionLink("Priezvisko klienta", "Index", new { sort = ViewBag.LastnameSort })</th>
+                    <th>@Html.ActionLink("Účtovný zostatok", "Index", new { sort = ViewBag.BalanceSort })</th>
+                    <th>@Html.ActionLink("Peňažná mena", "Index", new { sort = ViewBag.CurrencySort })</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (int i = 0; i < Model.Count(); i++)
+              {
+                    <tr>
+                        <td>
+                            <a href="@Url.Action("DeleteAccount", new { id = Model[i].ClientId})"><i class="glyphicon glyphicon-trash"></i></a>
+                            <a href="@Url.Action("EditAccount", new { id = Model[i].ClientId})"><i class="glyphicon glyphicon-edit"></i></a>
+                        </td>
+                        <td>@Model[i].ClientId</td>
+                        <td>@Model[i].Username</td>
+                        <td>@Model[i].Lastname</td>
+                        <td>@Model[i].Balance</td>
+                        <td>@Utilities.GetCurency(Model[i].Currency)</td>    
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <br /> Stránka @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) z počtu @Model.PageCount
+        @Html.PagedListPager(Model, page => Url.Action("Index",
+            new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+    </div>
+</div>
+
+
+
+
+
+
+
+
