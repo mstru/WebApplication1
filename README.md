@@ -1,4 +1,4 @@
-# WebApplication1
+# WebApplication1 - Banka
 Tento repozitár obsahuje vytvorenie webovej aplikácie za pomoci technológií:
 
     a. MS SQL Express,
