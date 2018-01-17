@@ -5,7 +5,7 @@ Tento repozitár obsahuje vytvorenie webovej aplikácie za pomoci technológií:
     b. Entity Framework – Code First
     c. ASP.NET MVC
 
-## Webová aplikácia umožňuje:
+### Webová aplikácia umožňuje:
 
     1. [OK] Aplikácia obsahuje zoznam klientov,
     2. [OK] Aplikácia umožňuje pridávanie/modifikáciu/zmazanie klientov,
