@@ -22,4 +22,4 @@ Tento repozitár obsahuje vytvorenie webovej aplikácie za pomoci technológií:
     13.[TODO] Pokiaľ klient nemá účet v mene, ktorá mu prichádza, tento sa automaticky vytvorí,
     14.[TODO] Filtrovanie bude rozšírené o menu
     
-
+![Alt text](/screen.jpg?raw=true "Optional Title")
